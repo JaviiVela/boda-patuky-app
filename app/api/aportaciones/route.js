@@ -3,6 +3,9 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "../../../src/lib/mongodb";
 import Aportacion from "../../../src/models/Aportacion";
 
+// ESTA ES LA LÍNEA MÁGICA QUE DESACTIVA EL CACHÉ
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     await connectToDatabase();
