@@ -92,8 +92,22 @@ export default function Home() {
 
   const handleDelete = async (id: string) => {
     if (confirm("¿Seguro que deseas eliminar este registro?")) {
-      await fetch(`/api/aportaciones/${id}`, { method: "DELETE" });
-      fetchAportaciones();
+      try {
+        const res = await fetch(`/api/aportaciones/${id}`, {
+          method: "DELETE",
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          alert(`❌ Error al borrar: ${errorData.error}`);
+          return;
+        }
+
+        // Si se borró bien en BD, recargamos la lista visual
+        fetchAportaciones();
+      } catch (error) {
+        alert("❌ Error de conexión al intentar borrar.");
+      }
     }
   };
 
